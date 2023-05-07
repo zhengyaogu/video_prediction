@@ -1,7 +1,7 @@
 # Advanced Video Masking: Integrating SpatioTemporal Models with Mask R-CNN
 
 ## Abstract
-
+<p align="justify">
 We present a novel approach for generating a semantic segmentation mask for the 22nd frame of a video sequence, given the first 11 frames. Our method integrates state-of-the-art models, SimVP and ConvLSTM, for Video Frame Prediction (VFP), and Mask R-CNN for Semantic Segmentation Mask (SSM). We trained the models separately, explored various combinations, and implemented different data augmentation techniques. By combining SimVP with Mask R-CNN and using blur and frameskip data augmentation, we achieved an Intersection over Union (IOU) score of 0.1123 on the validation dataset.
 
 ## Part - 1 (Video Frame Prediction) - SimVP: Video Prediction using a Spatio-temporal Model
