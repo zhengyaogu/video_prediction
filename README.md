@@ -1,4 +1,10 @@
-# Part - 1 (Video Frame Prediction) - SimVP: Video Prediction using a Spatio-temporal Model
+# Advanced Video Masking: Integrating SpatioTemporal Models with Mask R-CNN
+
+## Abstract
+
+We present a novel approach for generating a semantic segmentation mask for the 22nd frame of a video sequence, given the first 11 frames. Our method integrates state-of-the-art models, SimVP and ConvLSTM, for Video Frame Prediction (VFP), and Mask R-CNN for Semantic Segmentation Mask (SSM). We trained the models separately, explored various combinations, and implemented different data augmentation techniques. By combining SimVP with Mask R-CNN and using blur and frameskip data augmentation, we achieved an Intersection over Union (IOU) score of 0.1123 on the validation dataset.
+
+## Part - 1 (Video Frame Prediction) - SimVP: Video Prediction using a Spatio-temporal Model
 
 This repository contains the implementation of a video prediction model called SimVP. The model is trained on a custom dataset and can predict the future frames of a video given an initial sequence of frames.
 
@@ -108,7 +114,7 @@ The predictions will be saved as NumPy arrays and visualized as GIFs in the spec
 The blur images and corresponding masks will be saved in the specified directory as PNG and NumPy array files, respectively. Update the paths in `generate_blur_images.py` to save the generated images and masks in your desired location.
 
 
-# Part - 2 (Mask Prediction)
+## Part - 2 (Mask Prediction)
 
 This repository contains the code used to train an image segmentation model. The Mask RCNN model imported is from the Detectron2 library, and trained from scratch to predict segmentation of frames. The frames 1-11 in original dataset is used as training data, as well as the generated frames 12-22 from the video prediction model. 
 
