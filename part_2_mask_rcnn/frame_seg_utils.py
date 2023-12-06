@@ -14,26 +14,24 @@ def setup():
     cfg.DATASETS.TRAIN = ("dataset_train",)
     cfg.DATASETS.TEST = ("dataset_val",)
     cfg.TEST.EVAL_PERIOD = 5000
-    cfg.DATALOADER.NUM_WORKERS = 2
-    cfg.SOLVER.IMS_PER_BATCH = 60
+    cfg.DATALOADER.NUM_WORKERS = 1
+    cfg.SOLVER.IMS_PER_BATCH = 16
     cfg.SOLVER.BASE_LR = 0.0005
-    cfg.SOLVER.MAX_ITER = 42000  # 1 iter = 1 batch run
-    cfg.OUTPUT_DIR = "./42k_blur_frameskip_output/"  # choose output dir
+    cfg.SOLVER.MAX_ITER = 44000  # 1 iter = 1 batch run
+    cfg.OUTPUT_DIR = "./42k_output/"  # choose output dir
     cfg.SOLVER.STEPS = []
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 512
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = 48
+    # cfg.MODEL.RPN.PRE_NMS_TOPK_TRAIN = 1000
+    # cfg.MODEL.RPN.POST_NMS_TOPK_TRAIN = 1000
     cfg.INPUT.MASK_FORMAT = "bitmask"
     cfg.MODEL.DEVICE = "cuda"
 
-    # if we want to load a checkpoint
-    # cfg.MODEL.WEIGHTS = "/content/drive/MyDrive/101_42k_blur_frameskip_output/model_0004999.pth/model_0004999.pth"
     return cfg
 
 
 def one_hot_encode_mask(mask):
-    data_point = []
-    for x in range(1, 49):  # skip 0 because 0 is background
-        data_point.append(np.where(mask == x, 1.0, 0.0))
+    data_point = [np.where(mask == x, 1.0, 0.0) for x in range(1, 49)]
     split_mask = np.stack(data_point)
     return split_mask
 
