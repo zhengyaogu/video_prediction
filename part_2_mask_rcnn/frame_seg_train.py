@@ -142,8 +142,8 @@ class MyTrainer(DefaultTrainer):
                 is_train=True,
                 augmentations=[
                     T.RandomBrightness(0.9, 1.1),
-                    T.RandomFlip(prob=0.5, vertical=True, horizontal=False),
-                    T.RandomFlip(prob=0.5, vertical=False, horizontal=True),
+                    # T.RandomFlip(prob=0.5, vertical=True, horizontal=False),
+                    # T.RandomFlip(prob=0.5, vertical=False, horizontal=True),
                 ],
             ),
         )
