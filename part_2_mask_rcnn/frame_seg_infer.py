@@ -1,8 +1,8 @@
 ###### PATHS TO USE#####
 INFERENCE_OUTPUT_PATH = "./inference_output.npy"
-MODEL_WEIGHTS_PATH = "/content/drive/MyDrive/101_42k_blur_frameskip_output/model_0004999.pth/model_0004999.pth"
-INPUT_DATA_PATH = "/content/drive/MyDrive/simvp_final/final_validation_predictions.npy"
-VALIDATION_DATA_PATH = "/content/Dataset_Student/val"
+MODEL_WEIGHTS_PATH = "./42k_output/model_0004999.pth"
+INPUT_DATA_PATH = "./validation_imgs.npy"
+VALIDATION_DATA_PATH = "../Dataset_Student_V2/Dataset_Student/val"
 ########################
 
 from frame_seg_utils import setup
@@ -48,8 +48,9 @@ def infer(input_data, batch_size=20):
     ]
 
     # run inference in batches
+    model = model.cuda()
     model.eval()
-    outputs = []
+    masks = []
     for i in tqdm(range(len(full_data_list) // batch_size)):
         with torch.no_grad():
             if i != (len(full_data_list) // batch_size):
@@ -58,7 +59,13 @@ def infer(input_data, batch_size=20):
                 )
             else:
                 output = model(full_data_list[i * batch_size :])
-            outputs.append(output)
+            
+            for out in output:
+                mask = torch.zeros((160, 240)).to(DEVICE)
+                for idx, c in enumerate(out["instances"].pred_classes.tolist()):
+                    class_mask = out["instances"].pred_masks[idx]
+                    mask = torch.where(class_mask, c + 1, mask)
+                masks.append(mask)
 
     # flatten list
     all_outs = [item for sublist in outputs for item in sublist]
@@ -90,8 +97,12 @@ def validation(pred, true):
     print(f"IOU calculated {iou.item()}")
 
 
-in_data = load_input_data()
-out_data = infer(in_data)
-np.save(INFERENCE_OUTPUT_PATH, out_data.cpu().numpy())
-# true_data = load_true_masks()
-# validation(out_data, true_data)
+if __name__ == "__main__":
+    print("loading input data...")
+    in_data = load_input_data(scale=False)
+    print("inferring...")
+    out_data = infer(in_data, batch_size=1)
+    print("saving predictions...")
+    np.save(INFERENCE_OUTPUT_PATH, out_data.cpu().numpy())
+    # true_data = load_true_masks()
+    # validation(out_data, true_data)

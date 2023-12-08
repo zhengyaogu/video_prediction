@@ -173,16 +173,18 @@ def detectron_train(
     return trainer.train()
 
 
-def evaluate_model():
+def evaluate_model(
+    cache="./val_dataset.pkl"
+):
     cfg = setup()
     cfg.MODEL.WEIGHTS = os.path.join(
-        cfg.OUTPUT_DIR, "model_final.pth"
+        cfg.OUTPUT_DIR, "model_0004999.pth"
     )  # path to the model we just trained
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7  # set a custom testing threshold
     for d in ["val"]:
         DatasetCatalog.register(
             "dataset_" + d,
-            lambda d=d: get_detectron2_dataset(VAL_PATH + d),
+            lambda d=d: get_detectron2_dataset(VAL_PATH, cache=cache),
         )
 
         MetadataCatalog.get("dataset_" + d).set(
@@ -195,8 +197,10 @@ def evaluate_model():
 
 
 if __name__ == "__main__":
-    config = setup()
-    detectron_train(
-        config
-    )
+    # config = setup()
+    # detectron_train(
+    #     config,
+    #     resume=True
+    # )
+    evaluate_model()
 
