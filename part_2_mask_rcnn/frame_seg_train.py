@@ -1,6 +1,6 @@
 ###### PATHS TO USE#####
-TRAIN_PATH = "../Dataset_Student_V2/Dataset_Student/train"
-VAL_PATH = "../Dataset_Student_V2/Dataset_Student/val"
+TRAIN_PATH = "../data/dataset/train"
+VAL_PATH = "../data/dataset/val"
 ########################
 
 from frame_seg_utils import *
@@ -151,8 +151,8 @@ class MyTrainer(DefaultTrainer):
 
 def detectron_train(
     cfg, 
-    train_data_cache="./train_dataset.pkl", 
-    test_data_cache="./val_dataset.pkl", 
+    train_data_cache="./cached_data/train_dataset.pkl", 
+    test_data_cache="./cached_data/val_dataset.pkl", 
     resume=False
 ):
     DatasetCatalog.clear()
@@ -197,10 +197,9 @@ def evaluate_model(
 
 
 if __name__ == "__main__":
-    # config = setup()
-    # detectron_train(
-    #     config,
-    #     resume=True
-    # )
-    evaluate_model()
+     config = setup()
+     detectron_train(
+         config,
+         resume=False
+     )
 

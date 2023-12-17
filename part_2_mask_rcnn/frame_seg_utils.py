@@ -15,17 +15,22 @@ def setup():
     cfg.DATASETS.TEST = ("dataset_val",)
     cfg.TEST.EVAL_PERIOD = 5000
     cfg.DATALOADER.NUM_WORKERS = 1
-    cfg.SOLVER.IMS_PER_BATCH = 16
+    cfg.SOLVER.IMS_PER_BATCH = 32
     cfg.SOLVER.BASE_LR = 0.0005
-    cfg.SOLVER.MAX_ITER = 44000  # 1 iter = 1 batch run
+    cfg.SOLVER.MAX_ITER = 16000  # 1 iter = 1 batch run
     cfg.OUTPUT_DIR = "./42k_output/"  # choose output dir
     cfg.SOLVER.STEPS = []
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 512
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = 48
+    cfg.INPUT.FORMAT = "RGB"
+    # cfg.MODEL.PIXEL_MEAN = [0.5008, 0.5045, 0.5061]
+    # cfg.MODEL.PIXEL_STD = [0.0038, 0.0032, 0.0033]
     # cfg.MODEL.RPN.PRE_NMS_TOPK_TRAIN = 1000
     # cfg.MODEL.RPN.POST_NMS_TOPK_TRAIN = 1000
     cfg.INPUT.MASK_FORMAT = "bitmask"
     cfg.MODEL.DEVICE = "cuda"
+    
+    cfg.MODEL.WEIGHTS = "./pretrained_models/model_0000057.pth"
 
     return cfg
 
